@@ -1,28 +1,29 @@
 name: Update Jira Ticket Status
 
 on:
-    create:
+  create:
 
 jobs:
-    move-to-ready-jira:
-        runs-on: ubuntu-latest
-        if: github.event.ref_type == 'branch'
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+  move-to-ready-jira:
+    runs-on: ubuntu-latest
+    if: github.event.ref_type == 'branch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: Set up Python
-              uses: actions/setup-python@v2
-              with:
-                  python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
 
-            - name: Install dependencies
-              run: pip install requests
+      - name: Install dependencies
+        run: pip install requests
 
-            - name: Update Jira Ticket to Ready for Review
-              env:
-                  JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
-                  PR_TITLE: ${{ github.event.pull_request.title }}
-                  BRANCH_NAME: ${{ github.head_ref }}
-              run: |
-                  python .github/scripts/jira_automation.py --branch-name ${{ github.head_ref }} --move-to-in-progress True
+      - name: Update Jira Ticket to Ready for Review
+        env:
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: |
+          echo ${{ github.event }}
+          python .github/scripts/jira_automation.py --branch-name ${{ github.head_ref }} --move-to-in-progress True
