@@ -23,9 +23,6 @@ jobs:
         env:
           JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
           PR_TITLE: ${{ github.event.pull_request.title }}
-          BRANCH_NAME: ${{ github.head_ref }}
 
         run: |
-          echo ${{ github.ref }}
-          echo ${{ github.event }}
-          python .github/scripts/jira_automation.py --branch-name ${{ github.head_ref }} --move-to-in-progress True
+          python .github/scripts/jira_automation.py --branch-name ${{ github.ref }} --move-to-in-progress True
